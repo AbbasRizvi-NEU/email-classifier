@@ -1,0 +1,30 @@
+{
+  "evaluation": {
+    "category": {
+      "accuracy": 0.5,
+      "macro_f1": 0.38888888888888884,
+      "majority_baseline_accuracy": 0.3333333333333333,
+      "test_class_counts": {
+        "Personal": 2,
+        "Spam": 2,
+        "Work": 2
+      },
+      "test_examples": 6,
+      "train_examples": 24
+    },
+    "priority": {
+      "accuracy": 0.8333333333333334,
+      "macro_f1": 0.8412698412698413,
+      "majority_baseline_accuracy": 0.5,
+      "test_class_counts": {
+        "High": 2,
+        "Low": 3,
+        "Medium": 1
+      },
+      "test_examples": 6,
+      "train_examples": 24
+    }
+  },
+  "examples": 30,
+  "seed": 42
+}

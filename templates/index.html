@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Email Classifier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .result-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .result-label {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 1.3em;
+            color: #333;
+        }
+
+        .category-work { border-left-color: #3498db; }
+        .category-personal { border-left-color: #2ecc71; }
+        .category-spam { border-left-color: #e74c3c; }
+
+        .priority-high { color: #e74c3c; font-weight: bold; }
+        .priority-medium { color: #f39c12; }
+        .priority-low { color: #95a5a6; }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 AI Email Classifier</h1>
+        <p class="subtitle">Local demo trained on 30 fictional examples. Predictions may be wrong.</p>
+
+        <form id="emailForm">
+            <textarea
+                id="emailText"
+                maxlength="10000" placeholder="Use a fictional email...&#10;&#10;Example: 'Meeting scheduled for tomorrow at 10am regarding the new project launch'"
+                required
+            ></textarea>
+
+            <button type="submit" class="btn">Classify Email</button>
+        </form>
+
+        <div class="loading" id="loading">
+            <p>🤖 Analyzing email...</p>
+        </div>
+
+        <div class="results" id="results">
+            <h2 style="margin-bottom: 20px; color: #333;">Classification Results</h2>
+
+            <div class="result-item" id="categoryResult">
+                <div class="result-label">Category</div>
+                <div class="result-value" id="categoryValue">-</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">Priority</div>
+                <div class="result-value" id="priorityValue">-</div>
+            </div>
+
+            <div class="result-item">
+                <div class="result-label">Category model score (uncalibrated)</div>
+                <div class="result-value" id="confidenceValue">-</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const emailText = document.getElementById('emailText').value;
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+
+            // Show loading
+            loading.classList.add('show');
+            results.classList.remove('show');
+
+            try {
+                const response = await fetch('/api/classify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email_text: emailText })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Classification failed");
+                }
+
+                // Hide loading
+                loading.classList.remove('show');
+
+                // Update results
+                const categoryResult = document.getElementById('categoryResult');
+                categoryResult.className = 'result-item category-' + data.category.toLowerCase();
+
+                document.getElementById('categoryValue').textContent = data.category;
+                document.getElementById('priorityValue').textContent = data.priority;
+                document.getElementById('priorityValue').className = 'result-value priority-' + data.priority.toLowerCase();
+                document.getElementById('confidenceValue').textContent = (data.confidence * 100).toFixed(1) + '%';
+
+                // Show results
+                results.classList.add('show');
+
+            } catch (error) {
+                loading.classList.remove('show');
+                alert('Error classifying email: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+email_text,category,priority
+Production checkout failed and needs an engineer immediately.,Work,High
+The customer demo starts in one hour and the server is down.,Work,High
+Please restore the database before the release deadline today.,Work,High
+An outage is blocking orders and needs immediate attention.,Work,High
+Please review the design proposal before next week's planning session.,Work,Medium
+The project review is scheduled for next Tuesday.,Work,Medium
+Please add your estimates to the upcoming sprint plan.,Work,Medium
+Here are the archived meeting notes for your reference.,Work,Low
+Our monthly engineering newsletter is available to read anytime.,Work,Low
+The optional team reading list has been updated.,Work,Low
+Your boarding gate closes in thirty minutes. Please proceed now.,Personal,High
+The school pickup closes shortly. Please collect your child now.,Personal,High
+Your train departs in one hour. Please arrive before departure.,Personal,High
+Your library books are due next week. Please renew them.,Personal,Medium
+Your appointment is scheduled for next Tuesday afternoon.,Personal,Medium
+Your reservation needs confirmation before next week's visit.,Personal,Medium
+Here are the holiday photos for you to enjoy whenever you have time.,Personal,Low
+Would you like to choose a film for a relaxed weekend evening?,Personal,Low
+Our family book club has shared its optional reading list.,Personal,Low
+A friend shared a new recipe you might enjoy someday.,Personal,Low
+Claim a fictional jackpot by sending a processing fee.,Spam,Low
+You won a surprise prize in a lottery you never entered.,Spam,Low
+Buy this miracle product with a guaranteed impossible result.,Spam,Low
+Collect your secret lottery winnings by paying a small fee.,Spam,Low
+Get rich without doing any work using this exclusive offer.,Spam,Low
+A stranger promises a cash reward for your account credentials.,Spam,Low
+Send a transfer to release an unexpected inheritance.,Spam,Low
+Click an unsolicited prize link and provide your password.,Spam,Low
+A mystery promotion guarantees instant wealth for everyone.,Spam,Low
+Share your password to receive an unbelievable reward.,Spam,Low
